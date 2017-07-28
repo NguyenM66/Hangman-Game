@@ -15,9 +15,60 @@
 
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-	
+
 </head>
 <body>
 	
+	<div id="Hangman">
+		<p> Press any key to start! </p>
+	</div>
+
 </body>
+
+<script type="text/javascript">
+//arrays travel words, and images
+var travelWords = ["Manchu Pichu", "Alaska", "Glacier National Park", "China", "Puerto Rico", "Zion"];
+var travelImages = [] //this is likely not an array and an image that is associated with word
+
+//Variables here
+// Wins=0 and a win++ at the end of the win loop
+// Guess=20 and a guess-- at the end of guess loop
+// userGuess=0 and a guess++ at the end of the user guess loop
+var wins = 0;
+var guessLimit = 20;
+var numberGuesses = 0;
+
+// Function is run whenever a her is pressed
+document.onkeyup = function(event) {
+
+	//Determines which key is pressed
+	var userGuess = event.key;
+
+	//Generate random word from list
+	var randomWord = travelWords[Math.floor(Math.random() * travelWords.length)];
+
+
+
+// print --- for word
+// store user guess into an array
+// if correct key pressed show letter and if all letters are shown, you win, win++
+
+	//if travelWords[i][j] == 
+
+// if wrong display wrong letter here
+// if already guessed display letter here
+// deduct # of guessLimit from guessLimit--
+// count # of numberGuesses, numberGuesses ++
+// if numberGuesses = guessLimit
+// Game over
+
+//Html keeps track of score
+
+	//Set inner html contents of #hamgman
+	document.querySelector("#Hangman").innerHTML = html;
+};
+
+
+</script>
+
 </html>
