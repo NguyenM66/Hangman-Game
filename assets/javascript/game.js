@@ -22,10 +22,11 @@ var travelWordLength = travelWordArray.length;
 var travelImage = randomWord + ".jpg";
 
 function setupGame(){
+	randomWord = travelWords[Math.floor(Math.random() * travelWords.length)];
 	badLetter = [];
 	guessLimit = 6;
 	displayArray = [];
-	randomWord = randomWordStr;
+	//randomWord = randomWord;
 	console.log("random word", randomWord);
 	console.log("travel image", travelImage);	
 	travelWordArray = randomWord.split("");
@@ -44,7 +45,7 @@ function screenPrint() {
 	var displayArrayStr = displayArray.toString().replace(/,/g,"");
 	
 	var html = "<h1> Hangman </h1>" +
-	"<h2> Travel </h2>" +
+	"<h2> Where to Travel </h2>" +
 	"<p> Wins: " + wins + "</p>" +
 	"<p> display letter: " + displayArrayStr + "</p>" +
 	"<p> bad letter: " + badLetter + "</p>" +
@@ -56,7 +57,7 @@ function screenPrint() {
 }
 
 function pictureChange(travelImage) {
-	var imageURL = "<img src=assets/images/" + travelImage + ".jpg alt='images/hangman.jpg' style='width:300px; height:220px;'>"
+	var imageURL = "<img src=assets/images/" + travelImage + " alt='assets/images/hangman.jpg' style='width:300px; height:220px;'>"
 	document.querySelector("#ImageHTML").innerHTML = imageURL;
 }
 
@@ -104,16 +105,28 @@ screenPrint();
 			gameWon = displayArray.indexOf("_ ");
 
 			if (gameWon == -1) {
-				alert("you won " + displayArray.toString().replace(/,/g,""));
+				var travelImage = randomWord + ".jpg";
+				var country = displayArray.toString().replace(/,/g,"");
+				var won = "<p> You Won the word was: "  + country +  "!! </p>"
+				document.querySelector("#Won").innerHTML = won;
 				pictureChange(travelImage);
 				wins++;
 				setupGame();
 			}
-			if (guessLimit == 0) {
-				alert("you lose ");
+
+			if(guessLimit == 0) {
+				//document.getElementById("Won").style.visibility = "hidden";
+				var travelImage = randomWord + ".jpg";
+				var lose = "<p> You Lose the word was: " + randomWord + "... </p>";
+				document.querySelector("#Lose").innerHTML = lose;
+				pictureChange(travelImage);
+				//alert("you lose ");
 				losses++;
 				setupGame();
 				}
+
+			else {
+			}
 
 			console.log("userGuess", userGuess);
 			console.log("wordArrayTest" , wordArrayTest);
