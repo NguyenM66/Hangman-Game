@@ -1,113 +1,126 @@
-// It's a good idea to start with your variables first then work on your funtions
-
 
 //var arrays: travel words, images, blank spaces, good letters, bad letters
-var travelWords = ["italy", "alaska", "peru", "japan", "germany", "bermuda"];
-var travelImages = []; //this is likely not an array and an image that is associated with word
+var travelWords = ["italy", "alaska", "peru", "japan", "france", "china"];
 var displayArray = [];
 var travelWordArray = [];
 var badLetter = [];
 var displayStr; 
-var gameWon = 1;
-
-// Variables here
-// Wins=0 and a win++ at the end of the win loop
-// guessLimit=6 and a guess-- at the end of guess loop
+//priming the variable
+var gameWon = 0;
 var wins = 0;
+var losses =0;
+
 //guessLimit= head, body, arm, arm, leg, leg
 var guessLimit = 6;
 
-//need to generate a random word
-//make array same size with -- and display it
-//need to convert the string to an array to test the letters in the string
+// //need to generate a random word
+// //need to convert the string to an array to test the letters in the string
 var randomWord = travelWords[Math.floor(Math.random() * travelWords.length)];
-document.querySelector("#Hangman").innerHTML = displayStr;
 var travelWordArray = randomWord.split("");
-console.log("travelWordArray" , travelWordArray);
-// need an array of -- to put on the screen that is the same size as the word
 var travelWordLength = travelWordArray.length;
 
+function setupGame(){
+	badLetter = [];
+	guessLimit = 6;
+	displayArray = [];
+	randomWord = travelWords[Math.floor(Math.random() * travelWords.length)];
+	travelWordArray = randomWord.split("");
+	console.log("travelWordArray" , travelWordArray);
+	travelWordLength = travelWordArray.length;
 
-//for loop to put in the same number of - as letters
-for (var i = 0; i < travelWordArray.length; i++) {
+	for (var i = 0; i < travelWordArray.length; i++) {
 	displayArray.push("_ ");
+	}
+
+	console.log("display letter" , displayArray);
+	console.log("bad letter" , badLetter);
 }
 
+function screenPrint() {
+	var displayArrayStr = displayArray.toString().replace(/,/g,"");
+	
+	var html = "<h1> Hangman </h1>" +
+	"<p> Wins: " + wins + "</p>" +
+	"<p> display letter: " + displayArrayStr + "</p>" +
+	"<p> bad letter: " + badLetter + "</p>" +
+	"<p> Losses: " + losses + "</p>"
 
-console.log("display letter" , displayArray);
-console.log("bad letter" , badLetter);
 
+
+	// Set inner html contents of #hamgman
+	document.querySelector("#Game").innerHTML = html;
+}
 
 // Function is run whenever a key is pressed
-document.onkeyup = function(event) {
-	var gameWon = displayArray.indexOf("_ ");
-	//while (gameWon > -1 && guessLimit >= 0){
+setupGame();
+screenPrint();
 
+	document.onkeyup = function(event) {
+	//after press key remove (press any key intro)
+	document.getElementById("Hangman").style.visibility = "hidden";
+
+	//if alpha is pressed then run code
+	if (event.keyCode >=65 && event.keyCode <= 90) {
+
+		
 		//Determines which key is pressed
-		var userGuess = event.key;
-
-			//if alpha is pressed then run code
-				//make alpha into lower case userguess.tolowercase()
+		var userGuess = event.key.toLowerCase();
 
 		//gives index of -1 if userGuess is not in any of the 3 arrays
 		var wordArrayTest = travelWordArray.indexOf(userGuess);
 		var displayArrayTest = displayArray.indexOf(userGuess);
 		var badLetterTest = badLetter.indexOf(userGuess);
 
+			//want to take the userGuess and find out if its in one of the 3 arrays
+			//A- if all 3 arrays return a -1 then push letter in badletterarray and decrement my guesslimit by 1
+				if (wordArrayTest == -1 && displayArrayTest == -1 && badLetterTest == -1) {
+					badLetter.push(userGuess);
+					guessLimit--;
+				}	
 
-		//want to take the userGuess and find out if its in one of the 3 arrays
-		//A- if all 3 arrays return a -1 then push letter in badletterarray and decrement my guesslimit by 1
-			if (wordArrayTest == -1 && displayArrayTest == -1 && badLetterTest == -1) {
-				badLetter.push(userGuess);
-				guessLimit--;
+			//B- if dsplayarraytest > -1 || badletterTest >-1, then do nothing (because it is already on the screen)
+			//don't write anything here just does it for you. 
 
-				if (gameWon == -1) {
-					console.log("You Win!");
-					wins++;
+			//C -while wordarraytest = x and x > -1, displayArray[x] = wordArray[x] , THEN we need to get rid of the letter by  
+			//   assigning Wordarray[x] = "*", then retest wordArrayTest = travelWordArray.indexOf(userGuess);
+				while (wordArrayTest > -1) {
+					var x = wordArrayTest;
+					displayArray[x] = travelWordArray[x];
+					travelWordArray[x] = "*";
+					wordArrayTest = travelWordArray.indexOf(userGuess);
+
 				}
 
-				if (guessLimit == 0) {
-					console.log("You Loose... ");
-}
+			gameWon = displayArray.indexOf("_ ");
+
+			if (gameWon == -1) {
+				alert("you won " + displayArray.toString().replace(/,/g,""));
+				wins++;
+				setupGame();
 			}
+			if (guessLimit == 0) {
+				alert("you loose ");
+				losses++;
+				setupGame();
+				}
 
+			console.log("userGuess", userGuess);
+			console.log("wordArrayTest" , wordArrayTest);
+			console.log("displayArrayTest" , displayArrayTest);
+			console.log("badLetterTest", badLetterTest);
+			console.log("GameWon?", gameWon);
+			console.log("travelWordArray", travelWordArray);
+			console.log("displayArray", displayArray);
+			console.log("badLetter", badLetter);
+			console.log("wins", wins);
+			console.log("guessLimit", guessLimit);
 
-		//B- if dsplayarraytest > -1 || badletterTest >-1, then do nothing (because it is already on the screen)
-		//don't write anything here just does it for you. 
+	}
 
-		//C -while wordarraytest = x and x > -1, displayArray[x] = wordArray[x] , THEN we need to get rid of the letter by  
-		//   assigning Wordarray[x] = "*", then retest wordArrayTest = travelWordArray.indexOf(userGuess);
-			while (wordArrayTest > -1) {
-				var x = wordArrayTest;
-				displayArray[x] = travelWordArray[x];
-				travelWordArray[x] = "*";
-				wordArrayTest = travelWordArray.indexOf(userGuess);
-			}
+	else {
+		alert('Please input alpha characters only'); 
+	}
 
-		// when display array is filled then they win, increment win++
+	screenPrint();
 
-
-		//restart game with new word
-
-		gameWon = displayArray.indexOf("_ ");
-		console.log("userGuess", userGuess);
-		console.log("wordArrayTest" , wordArrayTest);
-		console.log("displayArrayTest" , displayArrayTest);
-		console.log("badLetterTest", badLetterTest);
-		console.log("GameWon?", gameWon);
-		console.log("travelWordArray", travelWordArray);
-		console.log("displayArray", displayArray);
-		console.log("badLetter", badLetter);
-		console.log("guessLimit", guessLimit);
-		console.log("wins", wins);
-	//}
-}
-
-
-
-// if numberGuesses = guessLimit, you loose
-// if input is invalid do not do anything until it is valid
-// Game over
-
-	// Set inner html contents of #hamgman
-	//document.querySelector("#Hangman").innerHTML = html;
+	} 
