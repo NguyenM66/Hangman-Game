@@ -15,15 +15,19 @@ var guessLimit = 6;
 
 // //need to generate a random word
 // //need to convert the string to an array to test the letters in the string
-var randomWord = travelWords[Math.floor(Math.random() * travelWords.length)];
+var randomWordStr = travelWords[Math.floor(Math.random() * travelWords.length)];
+var randomWord = randomWordStr;
 var travelWordArray = randomWord.split("");
 var travelWordLength = travelWordArray.length;
+var travelImage = randomWord + ".jpg";
 
 function setupGame(){
 	badLetter = [];
 	guessLimit = 6;
 	displayArray = [];
-	randomWord = travelWords[Math.floor(Math.random() * travelWords.length)];
+	randomWord = randomWordStr;
+	console.log("random word", randomWord);
+	console.log("travel image", travelImage);	
 	travelWordArray = randomWord.split("");
 	console.log("travelWordArray" , travelWordArray);
 	travelWordLength = travelWordArray.length;
@@ -40,16 +44,22 @@ function screenPrint() {
 	var displayArrayStr = displayArray.toString().replace(/,/g,"");
 	
 	var html = "<h1> Hangman </h1>" +
+	"<h2> Travel </h2>" +
 	"<p> Wins: " + wins + "</p>" +
 	"<p> display letter: " + displayArrayStr + "</p>" +
 	"<p> bad letter: " + badLetter + "</p>" +
+	"<p> Guesses Left: " + guessLimit + "</p>" +
 	"<p> Losses: " + losses + "</p>"
-
-
 
 	// Set inner html contents of #hamgman
 	document.querySelector("#Game").innerHTML = html;
 }
+
+function pictureChange(travelImage) {
+	var imageURL = "<img src=assets/images/" + travelImage + ".jpg alt='images/hangman.jpg' style='width:300px; height:220px;'>"
+	document.querySelector("#ImageHTML").innerHTML = imageURL;
+}
+
 
 // Function is run whenever a key is pressed
 setupGame();
@@ -95,11 +105,12 @@ screenPrint();
 
 			if (gameWon == -1) {
 				alert("you won " + displayArray.toString().replace(/,/g,""));
+				pictureChange(travelImage);
 				wins++;
 				setupGame();
 			}
 			if (guessLimit == 0) {
-				alert("you loose ");
+				alert("you lose ");
 				losses++;
 				setupGame();
 				}
