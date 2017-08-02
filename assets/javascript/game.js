@@ -55,7 +55,7 @@ function screenPrint() {
 }
 
 function pictureChange(travelImage) {
-	var imageURL = "<img src=assets/images/" + travelImage + " alt='assets/images/hangman.jpg' class='img-rounded' style='width:300px; height:220px;'>"
+	var imageURL = "<img src=assets/images/" + travelImage + " alt='assets/images/hangman.jpg' class='img-rounded' style='width:100%; height:220px;'>"
 	document.querySelector("#ImageHTML").innerHTML = imageURL;
 }
 
