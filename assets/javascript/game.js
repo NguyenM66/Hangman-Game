@@ -44,20 +44,18 @@ function setupGame(){
 function screenPrint() {
 	var displayArrayStr = displayArray.toString().replace(/,/g,"");
 	
-	var html = "<h1> Hangman </h1>" +
-	"<h2> Where to Travel </h2>" +
-	"<p> Wins: " + wins + "</p>" +
-	"<p> display letter: " + displayArrayStr + "</p>" +
-	"<p> bad letter: " + badLetter + "</p>" +
-	"<p> Guesses Left: " + guessLimit + "</p>" +
-	"<p> Losses: " + losses + "</p>"
+	var html =  "<p> Where to? " + displayArrayStr + "</p>" +
+	"<p> Wrong Letters: " + badLetter + "</p>" +
+	"<p> Guesses Left: <span class='badge'>" + guessLimit + "</span></p>" +
+	"<p><span class='label label-success'> Wins: " + wins + "</span></p>" +
+	"<p> <span class='label label-danger'> Losses: " + losses + "</span></p>"
 
 	// Set inner html contents of #hamgman
 	document.querySelector("#Game").innerHTML = html;
 }
 
 function pictureChange(travelImage) {
-	var imageURL = "<img src=assets/images/" + travelImage + " alt='assets/images/hangman.jpg' style='width:300px; height:220px;'>"
+	var imageURL = "<img src=assets/images/" + travelImage + " alt='assets/images/hangman.jpg' class='img-rounded' style='width:300px; height:220px;'>"
 	document.querySelector("#ImageHTML").innerHTML = imageURL;
 }
 
@@ -66,8 +64,8 @@ function pictureChange(travelImage) {
 setupGame();
 screenPrint();
 
-	document.onkeyup = function(event) {
-	//after press key remove (press any key intro)
+document.onkeyup = function(event) {
+//after press key remove (press any key intro)
 	document.getElementById("Hangman").style.visibility = "hidden";
 
 	//if alpha is pressed then run code
@@ -84,23 +82,23 @@ screenPrint();
 
 			//want to take the userGuess and find out if its in one of the 3 arrays
 			//A- if all 3 arrays return a -1 then push letter in badletterarray and decrement my guesslimit by 1
-				if (wordArrayTest == -1 && displayArrayTest == -1 && badLetterTest == -1) {
-					badLetter.push(userGuess);
-					guessLimit--;
-				}	
+			if (wordArrayTest == -1 && displayArrayTest == -1 && badLetterTest == -1) {
+				badLetter.push(userGuess);
+				guessLimit--;
+			}	
 
 			//B- if dsplayarraytest > -1 || badletterTest >-1, then do nothing (because it is already on the screen)
 			//don't write anything here just does it for you. 
 
 			//C -while wordarraytest = x and x > -1, displayArray[x] = wordArray[x] , THEN we need to get rid of the letter by  
 			//   assigning Wordarray[x] = "*", then retest wordArrayTest = travelWordArray.indexOf(userGuess);
-				while (wordArrayTest > -1) {
-					var x = wordArrayTest;
-					displayArray[x] = travelWordArray[x];
-					travelWordArray[x] = "*";
-					wordArrayTest = travelWordArray.indexOf(userGuess);
+			while (wordArrayTest > -1) {
+				var x = wordArrayTest;
+				displayArray[x] = travelWordArray[x];
+				travelWordArray[x] = "*";
+				wordArrayTest = travelWordArray.indexOf(userGuess);
 
-				}
+			}
 
 			gameWon = displayArray.indexOf("_ ");
 
@@ -108,7 +106,7 @@ screenPrint();
 				//document.getElementById("Won").style.visibility = "visible";
 				var travelImage = randomWord + ".jpg";
 				var country = displayArray.toString().replace(/,/g,"");
-				var won = "<p> You Won the word was: "  + country +  "!! </p>"
+				var won = "<div class='alert alert-success' role='alert'><p> You Won the word was: "  + country +  "!! </p></div>"
 				document.querySelector("#Won").innerHTML = won;
 				document.querySelector("#Lose").innerHTML = "<p></p>";
 				pictureChange(travelImage);
@@ -119,7 +117,7 @@ screenPrint();
 			if(guessLimit == 0) {
 				//document.getElementById("Won").style.visibility = "hidden";
 				var travelImage = randomWord + ".jpg";
-				var lose = "<p> You Lose the word was: " + randomWord + "... </p>";
+				var lose = "<div class='alert alert-danger' role='alert'><p> You Lose the word was: " + randomWord + "... </p></div>";
 				document.querySelector("#Lose").innerHTML = lose;
 				document.querySelector("#Won").innerHTML = "<p></p>";
 				pictureChange(travelImage);
@@ -145,6 +143,6 @@ screenPrint();
 		alert('Please input alpha characters only'); 
 	}
 
-	screenPrint();
+screenPrint();
 
-	} 
+} 
