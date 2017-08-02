@@ -105,10 +105,12 @@ screenPrint();
 			gameWon = displayArray.indexOf("_ ");
 
 			if (gameWon == -1) {
+				//document.getElementById("Won").style.visibility = "visible";
 				var travelImage = randomWord + ".jpg";
 				var country = displayArray.toString().replace(/,/g,"");
 				var won = "<p> You Won the word was: "  + country +  "!! </p>"
 				document.querySelector("#Won").innerHTML = won;
+				document.querySelector("#Lose").innerHTML = "<p></p>";
 				pictureChange(travelImage);
 				wins++;
 				setupGame();
@@ -119,14 +121,12 @@ screenPrint();
 				var travelImage = randomWord + ".jpg";
 				var lose = "<p> You Lose the word was: " + randomWord + "... </p>";
 				document.querySelector("#Lose").innerHTML = lose;
+				document.querySelector("#Won").innerHTML = "<p></p>";
 				pictureChange(travelImage);
 				//alert("you lose ");
 				losses++;
 				setupGame();
 				}
-
-			else {
-			}
 
 			console.log("userGuess", userGuess);
 			console.log("wordArrayTest" , wordArrayTest);
